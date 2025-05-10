@@ -1,0 +1,1 @@
+edit in future and use this as frotnend file coz it is buils with vite and will be efficient ,another frontend foldser is not build eith any bulnder tool ,after updating push to github of ramchander010477@gmail.com,will auto deply in railway app

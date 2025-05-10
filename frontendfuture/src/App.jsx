@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import TaskForm from './components/TaskForm';
-import TaskList from './components/TaskList';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import TaskForm from "./components/TaskForm";
+import TaskList from "./components/TaskList";
+import { RiTimeFill } from "react-icons/ri";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -14,9 +15,9 @@ function Modal({ children, onClose }) {
           onClick={onClose}
           aria-label="Close modal"
         >
-          &#x2715;
+          <RiTimeFill size={20} />
         </button>
-        {children}
+        <>{children}</>
       </div>
     </div>
   );
@@ -24,7 +25,7 @@ function Modal({ children, onClose }) {
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [form, setForm] = useState({ task: '', date: '', priority: 'medium' });
+  const [form, setForm] = useState({ task: "", date: "", priority: "medium" });
   const [editingId, setEditingId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -37,19 +38,19 @@ function App() {
       const res = await axios.get(`${API_URL}/api/tasks`);
       setTasks(res.data);
     } catch (error) {
-      console.error('Failed to fetch tasks', error);
+      console.error("Failed to fetch tasks", error);
     }
   }
 
   function resetForm() {
-    setForm({ task: '', date: '', priority: 'medium' });
+    setForm({ task: "", date: "", priority: "medium" });
     setEditingId(null);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     if (!form.task.trim()) {
-      alert('Task is required');
+      alert("Task is required");
       return;
     }
     try {
@@ -62,25 +63,25 @@ function App() {
       fetchTasks();
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Failed to save task', error);
+      console.error("Failed to save task", error);
     }
   }
 
   async function handleDelete(id) {
-    if (!window.confirm('Are you sure you want to delete this task?')) return;
+    if (!window.confirm("Are you sure you want to delete this task?")) return;
     try {
       await axios.delete(`${API_URL}/api/tasks/${id}`);
       fetchTasks();
     } catch (error) {
-      console.error('Failed to delete task', error);
+      console.error("Failed to delete task", error);
     }
   }
 
   function startEdit(task) {
     setForm({
       task: task.task,
-      date: task.date ? task.date.substring(0, 10) : '',
-      priority: task.priority || 'medium',
+      date: task.date ? task.date.substring(0, 10) : "",
+      priority: task.priority || "medium",
     });
     setEditingId(task._id);
     setIsModalOpen(true);
@@ -88,21 +89,27 @@ function App() {
 
   async function toggleComplete(task) {
     try {
-      await axios.put(`${API_URL}/api/tasks/${task._id}`, { ...task, completed: !task.completed });
+      await axios.put(`${API_URL}/api/tasks/${task._id}`, {
+        ...task,
+        completed: !task.completed,
+      });
       fetchTasks();
     } catch (error) {
-      console.error('Failed to update task', error);
+      console.error("Failed to update task", error);
     }
   }
 
   async function toggleStar(id, starred) {
     try {
-      const taskToUpdate = tasks.find(t => t._id === id);
+      const taskToUpdate = tasks.find((t) => t._id === id);
       if (!taskToUpdate) return;
-      await axios.put(`${API_URL}/api/tasks/${id}`, { ...taskToUpdate, starred });
+      await axios.put(`${API_URL}/api/tasks/${id}`, {
+        ...taskToUpdate,
+        starred,
+      });
       fetchTasks();
     } catch (error) {
-      console.error('Failed to update task star', error);
+      console.error("Failed to update task star", error);
     }
   }
 
@@ -111,9 +118,11 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-6 max-w-full">
+    <div className="min-h-screen bg-background p-6 max-w-full  font-mono">
       <nav className="mb-6  pb-4 flex items-center justify-between bg-[#18181b] px-6 py-4 rounded-md shadow-md">
-        <h1 className="text-4xl font-extrabold text-white  tracking-wide">To-Do App</h1>
+        <h1 className="text-4xl font-extrabold text-white  tracking-wide">
+          To-Do App
+        </h1>
         <button
           className="px-4 py-2  hover:text-gray-300 bg-gray-900/30 hover:bg-gray-900/50 rounded-md  duration-200"
           onClick={() => {
@@ -125,15 +134,13 @@ function App() {
         </button>
       </nav>
 
-      <div className='w-full px-16 '>
-        <TaskList
-          tasks={filteredTasks()}
-          onToggleComplete={toggleComplete}
-          onEdit={startEdit}
-          onDelete={handleDelete}
-          onToggleStar={toggleStar}
-        />
-      </div>
+      <TaskList
+        tasks={filteredTasks()}
+        onToggleComplete={toggleComplete}
+        onEdit={startEdit}
+        onDelete={handleDelete}
+        onToggleStar={toggleStar}
+      />
 
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
