@@ -10,7 +10,7 @@ export default function TaskForm({ form, setForm, onSubmit, onCancel, editing })
                     id="task"
                     type="text"
                     placeholder="Enter your task"
-                    className="w-full p-3 rounded-lg border border-muted text-foreground bg-background placeholder-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
+                    className="w-full p-3 date-input rounded-lg border border-muted text-foreground bg-background placeholder-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
                     value={form.task}
                     onChange={e => setForm({ ...form, task: e.target.value })}
                     required
@@ -22,7 +22,7 @@ export default function TaskForm({ form, setForm, onSubmit, onCancel, editing })
                     <input
                         id="date"
                         type="date"
-                        className="w-full p-3 rounded-lg border border-muted text-foreground bg-background placeholder-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
+                        className="date-input  w-full p-3 rounded-lg border border-muted text-white bg-background placeholder-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
                         value={form.date}
                         onChange={e => setForm({ ...form, date: e.target.value })}
                     />
@@ -31,7 +31,7 @@ export default function TaskForm({ form, setForm, onSubmit, onCancel, editing })
                     <label className="block mb-2 text-sm font-semibold text-foreground" htmlFor="priority">Priority</label>
                     <select
                         id="priority"
-                        className="w-full p-3 rounded-lg border border-muted text-foreground bg-background placeholder-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
+                        className=" date-input w-full p-3 rounded-lg border border-muted text-foreground bg-background placeholder-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
                         value={form.priority}
                         onChange={e => setForm({ ...form, priority: e.target.value })}
                     >
@@ -54,7 +54,7 @@ export default function TaskForm({ form, setForm, onSubmit, onCancel, editing })
                 )}
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-gray-300  text-card rounded-lg shadow hover:brightness-110 flex items-center space-x-2 transition-colors   hover:text-gray-300 bg-gray-900/30 hover:bg-gray-900/50  duration-200"
+                    className="px-4 py-2 date-input gap-10 bg-gray-300  text-card rounded-lg shadow hover:brightness-110 flex items-center space-x-2 transition-colors   hover:text-gray-300 bg-gray-900/30 hover:bg-gray-900/50  duration-200"
                 >
                     <RiAddLine />
                     <span>{editing ? 'Update' : 'Add'} Task</span>

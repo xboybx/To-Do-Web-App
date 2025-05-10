@@ -3,7 +3,7 @@ import axios from 'axios';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/tasks';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Modal({ children, onClose }) {
   return (
@@ -34,7 +34,7 @@ function App() {
 
   async function fetchTasks() {
     try {
-      const res = await axios.get(API_URL);
+      const res = await axios.get(`${API_URL}/api/tasks`);
       setTasks(res.data);
     } catch (error) {
       console.error('Failed to fetch tasks', error);
@@ -54,9 +54,9 @@ function App() {
     }
     try {
       if (editingId) {
-        await axios.put(`${API_URL}/${editingId}`, form);
+        await axios.put(`${API_URL}/api/tasks/${editingId}`, form);
       } else {
-        await axios.post(API_URL, form);
+        await axios.post(`${API_URL}/api/tasks`, form);
       }
       resetForm();
       fetchTasks();
@@ -69,7 +69,7 @@ function App() {
   async function handleDelete(id) {
     if (!window.confirm('Are you sure you want to delete this task?')) return;
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${API_URL}/api/tasks/${id}`);
       fetchTasks();
     } catch (error) {
       console.error('Failed to delete task', error);
@@ -88,7 +88,7 @@ function App() {
 
   async function toggleComplete(task) {
     try {
-      await axios.put(`${API_URL}/${task._id}`, { ...task, completed: !task.completed });
+      await axios.put(`${API_URL}/api/tasks/${task._id}`, { ...task, completed: !task.completed });
       fetchTasks();
     } catch (error) {
       console.error('Failed to update task', error);
@@ -99,7 +99,7 @@ function App() {
     try {
       const taskToUpdate = tasks.find(t => t._id === id);
       if (!taskToUpdate) return;
-      await axios.put(`${API_URL}/${id}`, { ...taskToUpdate, starred });
+      await axios.put(`${API_URL}/api/tasks/${id}`, { ...taskToUpdate, starred });
       fetchTasks();
     } catch (error) {
       console.error('Failed to update task star', error);
@@ -125,7 +125,6 @@ function App() {
         </button>
       </nav>
 
-
       <TaskList
         tasks={filteredTasks()}
         onToggleComplete={toggleComplete}
@@ -133,7 +132,6 @@ function App() {
         onDelete={handleDelete}
         onToggleStar={toggleStar}
       />
-
 
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>

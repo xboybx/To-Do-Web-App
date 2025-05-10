@@ -108,3 +108,19 @@ button:focus {
 .accordion-content[data-state="closed"] {
   animation: accordion-up 0.3s ease-out forwards;
 }
+
+.date-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #222;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Style the calendar icon */
+.date-input::-webkit-calendar-picker-indicator {
+    filter: invert(50%) sepia(90%) saturate(300%) hue-rotate(200deg); /* Adjusts the color */
+    opacity: 0.7; /* Controls transparency */
+}
