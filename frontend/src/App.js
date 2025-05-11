@@ -95,16 +95,16 @@ function App() {
     }
   }
 
-  async function toggleStar(id, starred) {
-    try {
-      const taskToUpdate = tasks.find(t => t._id === id);
-      if (!taskToUpdate) return;
-      await axios.put(`${API_URL}/api/tasks/${id}`, { ...taskToUpdate, starred });
-      fetchTasks();
-    } catch (error) {
-      console.error('Failed to update task star', error);
-    }
-  }
+  // async function toggleStar(id, starred) {
+  //   try {
+  //     const taskToUpdate = tasks.find(t => t._id === id);
+  //     if (!taskToUpdate) return;
+  //     await axios.put(`${API_URL}/api/tasks/${id}`, { ...taskToUpdate, starred });
+  //     fetchTasks();
+  //   } catch (error) {
+  //     console.error('Failed to update task star', error);
+  //   }
+  // }
 
   function filteredTasks() {
     return tasks;
@@ -131,7 +131,7 @@ function App() {
         onToggleComplete={toggleComplete}
         onEdit={startEdit}
         onDelete={handleDelete}
-        onToggleStar={toggleStar}
+      // onToggleStar={toggleStar}
       />
 
 
