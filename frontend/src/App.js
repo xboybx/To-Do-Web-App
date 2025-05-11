@@ -27,17 +27,21 @@ function App() {
   const [form, setForm] = useState({ task: '', date: '', priority: 'medium' });
   const [editingId, setEditingId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchTasks();
   }, []);
 
   async function fetchTasks() {
+    setIsLoading(true);
     try {
       const res = await axios.get(`${API_URL}/api/tasks`);
       setTasks(res.data);
     } catch (error) {
       console.error('Failed to fetch tasks', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -125,15 +129,17 @@ function App() {
         </button>
       </nav>
 
-
-      <TaskList
-        tasks={filteredTasks()}
-        onToggleComplete={toggleComplete}
-        onEdit={startEdit}
-        onDelete={handleDelete}
-        onToggleStar={toggleStar}
-      />
-
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <TaskList
+          tasks={filteredTasks()}
+          onToggleComplete={toggleComplete}
+          onEdit={startEdit}
+          onDelete={handleDelete}
+          onToggleStar={toggleStar}
+        />
+      )}
 
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
@@ -149,5 +155,7 @@ function App() {
     </div>
   );
 }
+
+import LoadingScreen from './components/LoadingScreen';
 
 export default App;
