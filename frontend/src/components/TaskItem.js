@@ -2,28 +2,17 @@ import React from 'react';
 import { RiCheckLine, RiEditLine, RiDeleteBinLine, RiStarLine, RiStarFill, RiLoginBoxFill } from 'react-icons/ri';
 
 export default function TaskItem({ task, onToggleComplete, onEdit, onDelete, onToggleStar }) {
-    const [starred, setStarred] = React.useState(false);
+    const [starred, setStarred] = React.useState(task.starred || false);
 
     React.useEffect(() => {
-        // setStarred(task.starred || false);
-
-        localStorage.getItem('starredTasks') && setStarred(JSON.parse(localStorage.getItem('starredTasks')));
-    }, [starred]);
+        setStarred(task.starred || false);
+    }, [task.starred]);
 
     const handleStarClick = () => {
-        setStarred(!starred);
-
-        localStorage.setItem('starredTasks', JSON.stringify(!starred));
-        // console.log("task starred");
-
-        if (starred) {
-            // console.log("unstarred");
-            setStarred(false);
-
-        }
-
-
-    }
+        const newStarred = !starred;
+        setStarred(newStarred);
+        onToggleStar(task._id, newStarred);
+    };
 
     return (
         <li className={` bg-[#202022]  mb-3 py-6 px-6 rounded-lg shadow-md flex flex-col bg-card min-h-[80px] ${task.completed ? 'opacity-60' : ''}`}>
